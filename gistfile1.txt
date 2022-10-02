@@ -1,3 +1,4 @@
+cat  switchkiller.sh
 #!/bin/bash
 
 
@@ -9,17 +10,23 @@ iwgetid | awk -F ESSID: '{print $2}' | grep -oP '(?<=").*(?=")' > /current.ssid
 currentssid=$(cat /current.ssid)
 
 
-#making a function which will be called if  user is  not connected to a company's routeer
+curl -s ipinfo.io | grep country | awk '{print $2}' | grep -oP '(?<=").*(?=")' > /country.code
+
+currentcode=$(cat /country.code)
+
+
+
+#making a function which will be called if  VPN is not being used
 ###################################################################################################################################################
 
 ufw_action()
 {
-ufw reset
+ufw --force reset 
 #allowing access from Microtik
-ufw allow out from 192.168.60.242 &&
-
-#denying access from any ip that doesn't match Mikrotik router IP address.
-ifconfig | grep inet | awk '{ print $2}' | egrep -v '([a-z]|^127|192.168.60|^::)' | xargs ufw deny out from  2>/dev/null  &&
+ufw allow out from 192.168.60.0/24 &&
+ufw allow to 34.117.59.81 from 0.0.0.0  &&
+#denying outgoing traffic from any ip that doesn't match Mikrotik routet's subnet , loopback, IPv6.
+ip addr | grep inet | awk '{ print $2}' | egrep -v '([a-z]|^127|192.168.60|^::)' | xargs ufw deny out from  2>/dev/null  &&
 #for i in $(ifconfig | grep inet | awk '{ print $2}' | egrep -v '([a-z]|^127|192.168.60|^::)') ; do ufw deny out from $i; done  #the same as above
 
 ufw enable
@@ -27,4 +34,8 @@ ufw enable
 #######################################################################################################################################################
 
 
-if [[ $currentssid == $SSID ]] ; then echo "ssid is correct">>/tmp/connections.log ; else ufw_action ; fi
+if [[ $currentssid != $SSID &&  $currentcode==BY  ]] ;
+  then ufw_action && echo connection blocked for  SSID:  $currentssid from location: $currentcode at $(date)>>/tmp/connections.log
+  else echo successful connection to SSID: $currentssid from loacation: $currentcode at  $(date)>>/tmp/connections.log
+fi
+
