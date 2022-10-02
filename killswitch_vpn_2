@@ -1,0 +1,20 @@
+#!/bin/bash
+
+
+SSID="Deriv WiFi"
+
+
+iwgetid | awk -F ESSID: '{print $2}' | grep -oP '(?<=").*(?=")' > /current.ssid
+
+currentssid=$(cat /current.ssid)
+
+
+curl -s ipinfo.io | grep country | awk '{print $2}' | grep -oP '(?<=").*(?=")' > /country.code
+
+currentcode=$(cat /country.code)
+
+
+if [[ $currentssid != $SSID &&  $currentcode==BY  ]] ;
+  then rfkill block all  && echo connection blocked for  SSID:  $currentssid from location: $currentcode at $(date)>>/tmp/connections.log
+  else echo successful connection to SSID: $currentssid from loacation: $currentcode at  $(date)>>/tmp/connections.log
+fi
