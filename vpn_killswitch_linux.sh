@@ -10,7 +10,6 @@ import requests
 import os, platform, sys, datetime
 import json, getpass
 import subprocess
-import netifaces
 from uuid import getnode as get_mac
 api_url = "http://vpnmonitoring.deriv.cloud/ipcheck"
 api_url_notify = "http://vpnmonitoring.deriv.cloud/notify"
@@ -49,7 +48,7 @@ x = {
   "os": platform.system(), 
   "name": username,
   "wifi_ssid" : wifi_ssid,
-  "mac_add" : netifaces.ifaddresses('enp4s0')[17][0]['addr'], # get_mac(),
+  "mac_add" : get_mac(),
   "office" : office
 }
 try:
@@ -78,6 +77,7 @@ if (country_code == "BY" or country_code == "IR" ) :
 		os.system(cmd)
 		cmd = 'networksetup -listallnetworkservices | while read -r line; do networksetup -setnetworkserviceenabled "$line" off; done'
 		os.system(cmd)
+
 
 EOT
 
