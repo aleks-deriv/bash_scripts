@@ -43,6 +43,10 @@ elif wifi_ssid == "FS" :
 	office = "FirstSource"
 elif wifi_ssid == "jy" :
 	office = "Malaysia"
+elif wifi_ssid == "Deriv-Staff":
+        office = "Belarus"
+elif wifi_ssid == "DerivWiFi":
+        office = "Belarus"
 else :
 	office = "unknown"
 x = {
