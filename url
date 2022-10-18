@@ -1,2 +1,9 @@
 http://vpnmonitoring.deriv.cloud/ipcheck?os=Linux&name=&wifi_ssid=AndroidAP729E&mac_add=84%3Aa9%3A38%3A8c%3A38%3A7c&office=unknown
 
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: http://vpnmonitoring.deriv.cloud/ipcheck?os=Linux&name=&wifi_ssid=AndroidAP729E&mac_add=84%3Aa9%3A38%3A8c%3A38%3A7c&office=unknown
+2022-10-18 14:59:47.323527- Client data: {'os': 'Linux', 'name': b'', 'wifi_ssid': 'AndroidAP729E', 'mac_add': '84:a9:38:8c:38:7c', 'office': 'unknown'}
+
+<Response [200]>
+2022-10-18 15:17:04.433422- Client data: {'os': 'Linux', 'name': b'', 'wifi_ssid': 'Deriv-Staff', 'mac_add': '84:a9:38:8c:38:7c', 'office': 'Belarus'}
+
+
