@@ -21,7 +21,7 @@ elif sys.platform.startswith('linux'):
 		wifi_ssid = subprocess.check_output("nmcli --fields IN-USE,SSID device wifi | grep  \* | awk 'BEGIN {IGNORECASE = 1} !/SSID/' | awk '{for (i=2; i<NF; i++) printf $i \" \"; print $NF}' | awk 'NR == 1'", shell=True).rstrip().decode('utf-8')
 elif sys.platform.startswith('darwin'):
 	username = subprocess.check_output("users", shell=True).rstrip()
-	wifi_ssid = subprocess.check_output("/System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport -I | awk -F: '/ SSID/{print $2}'", shell=True).rstrip()
+	wifi_ssid = subprocess.check_output("/System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport -I | awk -F: '/ SSID/{print $2}'", shell=True).rstrip()	wifi_ssid = wifi_ssid.strip().decode("utf-8").replace('SSID: ', '')
 	wifi_ssid = wifi_ssid.strip().decode("utf-8").replace('SSID: ', '')
 	
 if wifi_ssid == "RMGTech 5GHz" :
