@@ -39,7 +39,7 @@ elif wifi_ssid == "Deriv-Staff":
 elif wifi_ssid == "DerivWiFi":
         office = "Belarus"
 else :
-	office = "unknown"
+	office = "Forbidden network"
 x = {
   "os": platform.system(), 
   "name": username,
