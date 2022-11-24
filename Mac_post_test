@@ -1,0 +1,45 @@
+#!/usr/bin/python3
+import requests
+import os, platform, sys, datetime
+import json, getpass
+import subprocess
+from uuid import getnode as get_mac
+
+api_url = "http://monitor.firstsource.tech/ipcheck"
+api_url_notify = "http://monitor.firstsource.tech/notify"
+geoIP_url = "http://monitor.firstsource.tech/geoip"
+action = ""
+username = ""
+geo = requests.get(geoIP_url).json()
+
+
+wifi_ssid = "Deriv-Staff"
+office = "Belarus"
+
+x = {
+  "os": platform.system(), 
+  "name": username,
+  "wifi_ssid" : wifi_ssid,
+  "mac_add" : get_mac(),
+  "office" : office
+}
+try:
+    action = requests.get(api_url, params=x)
+    action.raise_for_status()
+    print(action)
+    action = action.json()
+    action = action['isValid']
+except:
+    action =""
+    import traceback
+    traceback.print_exc()
+print("{}- Client data: {}".format(datetime.datetime.now(), x))
+print("{}- Action Code: {}".format(datetime.datetime.now(), action))
+try:
+    country_code = geo["country"]
+except:
+    print("{}- Exception thrown no country code".format(datetime.datetime.now()))
+    country_code = ""
+if (country_code == "BY" or country_code == "IR" ) and (action == 0) :
+	notify = requests.get(api_url_notify, params=x).json()
+	print("{}- {}".format(datetime.datetime.now(), notify))
