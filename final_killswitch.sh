@@ -38,8 +38,12 @@ elif wifi_ssid == "Binary-BPSA" :
 	office = "Paraguay"
 elif wifi_ssid == "Binary-DMCC" :
 	office = "Dubai"
-elif wifi_ssid == "FS" :
+elif wifi_ssid == "FS5G" :
 	office = "FirstSource"
+elif wifi_ssid == "FS" :
+        office = "FirstSource"
+elif wifi_ssid == "FS" :
+        office = "FirstSource"
 elif wifi_ssid == "jy" :
 	office = "Malaysia"
 elif wifi_ssid == "Deriv-Staff":
@@ -77,9 +81,9 @@ if (country_code == "BY" or country_code == "IR" ) and (action == 0) :
 	elif sys.platform.startswith('darwin'):
 		cmd = '/usr/sbin/networksetup -listallhardwareports | awk "/Wi-Fi/,/Ethernet Address/" | awk "NR==2" | cut -d " " -f 2'
 		interface = subprocess.check_output(cmd, shell=True).rstrip()
-		cmd = "networksetup -removepreferredwirelessnetwork " + interface.decode("utf-8") + " " + wifi_ssid			
+		cmd = "/usr/sbin/networksetup -removepreferredwirelessnetwork " + interface.decode("utf-8") + " " + wifi_ssid			
 		os.system(cmd)
-		cmd = 'networksetup -listallnetworkservices | while read -r line; do networksetup -setnetworkserviceenabled "\$line" off; done'
+		cmd = '/usr/sbin/networksetup -listallnetworkservices | while read -r line; do /usr/sbin/networksetup -setnetworkserviceenabled "\$line" off; done'
 		os.system(cmd)
 EOT
 
