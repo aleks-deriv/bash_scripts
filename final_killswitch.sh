@@ -21,7 +21,7 @@ if sys.platform.startswith('win32'):
 	username = ""
 	wifi_ssid = ""
 elif sys.platform.startswith('linux'):
-	username = subprocess.check_output("echo $SUDO_USER", shell=True).rstrip()
+	username = subprocess.check_output("hostname").rstrip()
 	wifi_ssid = subprocess.check_output("iw dev | grep ssid | awk {'for (i=2; i<=NF; i++) printf\"%s \",\$i'}", shell=True).rstrip().decode('utf-8')
 	if wifi_ssid == "":
 		wifi_ssid = subprocess.check_output("nmcli --fields IN-USE,SSID device wifi | grep  \* | awk 'BEGIN {IGNORECASE = 1} !/SSID/' | awk '{for (i=2; i<NF; i++) printf \$i \" \"; print \$NF}' | awk 'NR == 1'", shell=True).rstrip().decode('utf-8')
